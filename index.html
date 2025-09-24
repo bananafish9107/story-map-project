@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Story</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <main>
+    <!-- The map container, used by Leaflet -->
+    <div class="map" id="map"></div>
+
+    <!-- The slides container -->
+    <section class="slide-section">
+      <article class="slide" id="maritime_silk_road">
+        <h1>Maritime Silk Road</h1>
+        <p>The Maritime Silk Road is the maritime section of the historic Silk Road that connected Southeast Asia, East Asia, and the Indian subcontinent, the Arabian Peninsula, eastern Africa, and Europe.</p>
+        <p>Started by the 2nd century BCE and flourished until the 15th century CE, the Maritime Silk Road was used by Persian, Arab and Chinese to trade.</p>
+      </article>
+
+      <article class="slide" id="second-slide">
+        <h2>East Asia Legend</h2>
+        <p>An important chapter of the East Asian Maritime Silk Road is the Ming dynasty voyages of Zheng He and his enormous ships. Advances in shipbuilding technology made it possible to trade both farther and on a much larger scale.</p>
+        <p>These enormous vessels, known as treasure ships, were constructed in the shipyard that became the very starting point of Zheng He’s voyages.</p>
+      </article>
+
+      <article class="slide" id="third-slide">
+        <h2>Constructions Along the Voyages</h2>
+        <p>Surrounding the treasure shipyard, a range of affiliated structures arose, together forming the broader landscape of the Maritime Silk Road. Temples were built nearby to host prayers before each departure; marketplaces and commercial quarters reflected the hope for prosperous trade; and along Zheng He’s routes, shipyards and repair workshops appeared in many harbors to maintain the fleet. Collectively, these constructions illustrate how the great voyages left a lasting imprint on port cities across the region.</p>
+      </article>
+
+      <div class="slide-controls">
+        <button class="slide-nav-button" id="prev-slide">⧏</button>
+        <button class="slide-nav-button" id="next-slide">⧐</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/index.js" type="module"></script>
+</body>
+</html>
