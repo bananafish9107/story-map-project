@@ -39,8 +39,44 @@ class SlideDeck {
       style: (feature) => feature.properties.style,
     };
     const geoJsonLayer = L.geoJSON(data, options || defaultOptions)
-        .bindTooltip((l) => l.feature.properties.label)
+        .bindTooltip((l) => l.feature.properties.label,{
+          direction: 'top',
+          offset: [0, -8],
+          opacity: 0.95,
+          className: 'map-label'
+        })
         .addTo(this.dataLayer);
+    
+      if (options && options.imageId && window.__openStoryModal) {
+        const src = `picutures/${options.imageId}.png`;
+        window.__openStoryModal(`<img src="${src}" alt="Photo ${options.imageId}">`);
+
+      } else if (options && options.modal && window.__openStoryModal) {
+        window.__openStoryModal(options.modal.content);
+
+      } else if (options && options.popup) {
+        L.popup({
+          maxWidth: 420,
+          minWidth: 240,
+          className: 'media-popup'
+        })
+          .setLatLng([options.popup.ll[1], options.popup.ll[0]])
+          .setContent(options.popup.content)
+          .openOn(this.map);
+      }
+    
+    if (options && options.photoMarker) {
+      const m = options.photoMarker;
+      const marker = L.circleMarker(m.latlng, {
+        radius: 10,
+        weight: 3,
+        color: '#111827',
+        fillColor: '#f59e0b',
+        fillOpacity: 0.95
+      }).addTo(this.dataLayer);
+
+      if (m.tooltip) marker.bindTooltip(m.tooltip, { permanent: false });
+    }
 
     return geoJsonLayer;
   }
@@ -68,6 +104,7 @@ class SlideDeck {
    */
   hideAllSlides() {
     for (const slide of this.slides) {
+      slide.classList.remove('active');
       slide.classList.add('hidden');
     }
   }
@@ -80,12 +117,19 @@ class SlideDeck {
    * @param {HTMLElement} slide The slide's HTML element
    */
   async showSlide(slide) {
+    window.__closeStoryModal?.();
+
     this.hideAllSlides(this.slides);
     slide.classList.remove('hidden');
-
+    slide.classList.remove('active');
+    
     const collection = await this.getSlideFeatureCollection(slide);
     const options = this.slideOptions[slide.id];
     const layer = this.updateDataLayer(collection, options);
+    if (options.imageId && window.__openStoryModal) {
+      const src = `picutures/${options.imageId}.png`;
+      window.__openStoryModal(`<img src="${src}" alt="Photo ${options.imageId}">`);
+    }
 
     /**
      * Create a bounds object from a GeoJSON bbox array.
@@ -116,6 +160,7 @@ class SlideDeck {
     };
 
     this.map.addEventListener('moveend', handleFlyEnd);
+    if (options && options.keepView) return;
     if (collection.bbox) {
       this.map.flyToBounds(boundsFromBbox(collection.bbox));
     } else {
